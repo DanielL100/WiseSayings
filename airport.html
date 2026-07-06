@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מבצע נקמת המקורקע - נ"מ 80s</title>
+    <style>
+        :root {
+            --army-green: #2d3a1a;
+            --neon-orange: #ff6600;
+            --laser-red: #ff0000;
+            --radar-green: #00ff41;
+            --grid-color: rgba(0, 255, 65, 0.1);
+        }
+
+        body {
+            background-color: #050505;
+            color: var(--radar-green);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            overflow-x: hidden;
+            background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        /* CRT Effect Overlay */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 999;
+            pointer-events: none;
+            background-size: 100% 3px, 3px 100%;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px;
+            border-bottom: 5px double var(--neon-orange);
+            background: rgba(45, 58, 26, 0.8);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: var(--neon-orange);
+            text-shadow: 3px 3px 0px #000, 0 0 15px var(--neon-orange);
+            margin: 0;
+        }
+
+        .motto {
+            font-size: 1.5rem;
+            color: white;
+            background: var(--laser-red);
+            display: inline-block;
+            padding: 5px 20px;
+            margin-top: 10px;
+            transform: rotate(-1deg);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Animation Area */
+        .radar-screen {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border: 4px solid var(-- army-green);
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px var(--radar-green);
+            margin-bottom: 40px;
+        }
+
+        .plane {
+            position: absolute;
+            top: 50px;
+            left: -100px;
+            font-size: 40px;
+            transition: transform 0.1s;
+            z-index: 5;
+        }
+
+        .missile {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            width: 10px;
+            height: 30px;
+            background: var(--neon-orange);
+            display: none;
+            box-shadow: 0 0 10px var(--neon-orange);
+        }
+
+        .launcher {
+            position: absolute;
+            bottom: 0;
+            left: calc(50% - 30px);
+            width: 60px;
+            height: 40px;
+            background: var(--army-green);
+            border: 2px solid var(--radar-green);
+        }
+
+        .explosion {
+            position: absolute;
+            display: none;
+            font-size: 80px;
+            z-index: 10;
+        }
+
+        .controls {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        button {
+            background: var(--laser-red);
+            color: white;
+            border: 4px outset #660000;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-shadow: 2px 2px #000;
+        }
+
+        button:active { border-style: inset; }
+
+        section {
+            background: rgba(20, 20, 20, 0.9);
+            padding: 30px;
+            border: 1px solid var(--radar-green);
+            margin-bottom: 40px;
+            line-height: 1.7;
+        }
+
+        h2 { color: var(--neon-orange); border-bottom: 1px solid var(--neon-orange); }
+        .highlight { color: #fff; text-shadow: 0 0 5px var(--radar-green); }
+
+        footer { text-align: center; padding: 30px; font-size: 0.8rem; opacity: 0.6; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>אם אני לא טס - אף אחד לא טס</h1>
+    <div class="motto">נ"מ: הנקמה מתחילה כאן</div>
+</header>
+
+<main>
+    <div class="radar-screen" id="screen">
+        <div class="plane" id="plane">✈️</div>
+        <div class="missile" id="missile"></div>
+        <div class="launcher"></div>
+        <div class="explosion" id="explosion">💥</div>
+    </div>
+
+    <div class="controls">
+        <button onclick="launchIntercept()">שגר טיל יירוט!</button>
+    </div>
+
+    <section>
+        <h2>פרק א': החלום ושברו</h2>
+        <p>
+            הוא הגיע לגיבוש עם עיניים בורקות, חלם על <span class="highlight">F-15</span>, על סרבל טיסה ועל "רולים" בשקיעה. הוא שינן את המבנה המולקולרי של כנף והצדיע לכל שחף שעבר בחוף. אבל אז, בירכתי הטייסת, הגיע המשפט המרסק: <span class="highlight">"נמצאת לא מתאים להמשך הקורס"</span>.
+        </p>
+        <p>
+            באותו רגע, משהו בתוכו נסדק. השמיים שהיו אמורים להיות ביתו, הפכו לאויב שלו. הוא לא בכה. הוא רק הסתכל למעלה, צמצם עיניים ואמר בקול שקט: "אוקיי. אם הכיסא שלי לא בקוקפיט, אז של אף אחד לא יהיה".
+        </p>
+    </section>
+
+    <section>
+        <h2>פרק ב': הדוקטרינה של הנמ"ניק המתוסכל</h2>
+        <p>
+            כשחבריו הלכו ליחידות חי"ר או למודיעין, הוא דרש רק דבר אחד: <span class="highlight">נ"מ (נגד מטוסים)</span>. לא מתוך ציונות גרידא, אלא מתוך עיקרון הוגנות אבסולוטי. 
+        </p>
+        <p>
+            הוא למד כל בורג במערכת ה"יהלום" (פטריוט). הוא התאהב בצליל הנעילה של המכ"ם. עבורו, כל מטוס שעובר בשמיים הוא תזכורת למה שהוא לא, וכל טיל יירוט הוא הצהרת עצמאות. הפילוסופיה פשוטה: <span class="highlight">השמיים שייכים לציפורים, וכל מה שמתכתי ומנסה לעבור שם - חייב לעבור דרך האישור שלי.</span>
+        </p>
+    </section>
+
+    <section>
+        <h2>פרק ג': דוגמאות לנקמה סטטיסטית</h2>
+        <p>
+            מספרים עליו שבמילואים הוא היה יושב מול המכ"ם ולוחש למסך: "נו... תעבור פה... תן לי סיבה". 
+            כששאלו אותו למה הוא כל כך דרוך, הוא הסביר שזהו איזון קוסמי. אם הוא נאלץ לסבול את חום הקיץ בבסיס בדרום על הקרקע, אין סיבה שמישהו אחר ייהנה מהמיזוג של תא הטייס בגובה 30 אלף רגל.
+        </p>
+        <p>
+            הוא הפך את המרירות לאומנות. את האכזבה למערכת הנחיה תרמית. הוא הוכחה חיה לכך שחלומות לא תמיד מתגשמים - לפעמים הם פשוט הופכים למיירטים.
+        </p>
+    </section>
+</main>
+
+<footer>
+    מערכת הגנה אווירית 1985 | לוגיקת "גם לי וגם לך לא יהיה"
+</footer>
+
+<script>
+    const plane = document.getElementById('plane');
+    const missile = document.getElementById('missile');
+    const explosion = document.getElementById('explosion');
+    const screen = document.getElementById('screen');
+    
+    let planeX = -100;
+    let planeActive = true;
+
+    // Plane movement logic
+    function movePlane() {
+        if (!planeActive) return;
+        planeX += 3;
+        if (planeX > screen.offsetWidth) planeX = -100;
+        plane.style.left = planeX + 'px';
+        requestAnimationFrame(movePlane);
+    }
+    movePlane();
+
+    function launchIntercept() {
+        if (!planeActive) return;
+        
+        missile.style.display = 'block';
+        missile.style.bottom = '20px';
+        missile.style.left = '50%';
+        
+        let missileY = 20;
+        const interceptInterval = setInterval(() => {
+            missileY += 8;
+            missile.style.bottom = missileY + 'px';
+
+            // Collision Check
+            const planeRect = plane.getBoundingClientRect();
+            const missileRect = missile.getBoundingClientRect();
+
+            if (missileRect.top <= planeRect.bottom && 
+                missileRect.right >= planeRect.left && 
+                missileRect.left <= planeRect.right) {
+                
+                clearInterval(interceptInterval);
+                triggerExplosion(planeRect.left, planeRect.top);
+            }
+
+            if (missileY > 500) {
+                clearInterval(interceptInterval);
+                missile.style.display = 'none';
+            }
+        }, 20);
+    }
+
+    function triggerExplosion(x, y) {
+        planeActive = false;
+        plane.style.display = 'none';
+        missile.style.display = 'none';
+        
+        explosion.style.display = 'block';
+        explosion.style.left = (planeX) + 'px';
+        explosion.style.top = '30px';
+
+        setTimeout(() => {
+            explosion.style.display = 'none';
+            resetScenario();
+        }, 2000);
+    }
+
+    function resetScenario() {
+        planeX = -100;
+        plane.style.display = 'block';
+        planeActive = true;
+        movePlane();
+    }
+</script>
+
+</body>
+</html>
