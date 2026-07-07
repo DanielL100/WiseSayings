@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>דוקטרינת ה-DIY: תעשה את זה בעצמך</title>
+    <style>
+        :root {
+            --arcade-yellow: #fff600;
+            --arcade-blue: #0044ff;
+            --arcade-pink: #ff0055;
+            --bg-black: #0a0a0a;
+            --grid-line: rgba(255, 246, 0, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background-color: var(--bg-black);
+            color: #fff;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4) 50%),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px),
+                linear-gradient(0deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 100% 4px, 30px 30px, 30px 30px;
+        }
+
+        /* CRT Filter */
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
+            z-index: 9999;
+            pointer-events: none;
+            background-size: 100% 3px;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: #000;
+            border-bottom: 5px solid var(--arcade-yellow);
+            box-shadow: 0 0 25px rgba(255, 246, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: var(--arcade-yellow);
+            text-shadow: 0 0 10px var(--arcade-yellow);
+            margin-bottom: 15px;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: #00ffcc;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Interactive "Do It Yourself" Simulator */
+        .arcade-box {
+            background: #000;
+            border: 4px solid var(--arcade-blue);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 0 20px rgba(0, 68, 255, 0.4);
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #222;
+            border: 2px solid #555;
+            height: 30px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--arcade-pink);
+            box-shadow: 0 0 10px var(--arcade-pink);
+            transition: width 0.1s ease;
+        }
+
+        .status-msg {
+            font-size: 1.2rem;
+            color: var(--arcade-yellow);
+            margin-top: 15px;
+            min-height: 28px;
+        }
+
+        .action-btn {
+            background: var(--arcade-yellow);
+            color: #000;
+            border: none;
+            padding: 15px 35px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px var(--arcade-pink);
+            text-transform: uppercase;
+        }
+
+        .action-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 0px 0px 0px var(--arcade-pink);
+        }
+
+        /* Content Sections */
+        section {
+            background: rgba(0, 0, 0, 0.85);
+            padding: 30px;
+            margin-bottom: 35px;
+            border-right: 5px solid var(--arcade-blue);
+            border-left: 1px solid #333;
+            line-height: 1.8;
+        }
+
+        h2 {
+            color: var(--arcade-pink);
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 5px var(--arcade-pink);
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #e0e0e0;
+        }
+
+        .quote-block {
+            background: #111;
+            border: 1px dashed var(--arcade-yellow);
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            color: var(--arcade-yellow);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-size: 0.8rem;
+            color: #555;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>רוצה שמשהו יקרה? תעשה אותו בעצמך!</h1>
+        <div class="tagline">מניפסט האקטיביזם האישי והשמדת העצלנות הדדית</div>
+    </header>
+
+    <main>
+
+        <!-- Interactive Simulator -->
+        <div class="arcade-box">
+            <h3 style="color: #00ffcc; margin-bottom: 10px;">מנוע משימות אוטומטי (סימולטור עצלנות)</h3>
+            <p style="font-size: 0.9.rem;">אם תחכה שמישהו אחר ימלא את המד, הוא פשוט יתרוקן. הדרך היחידה להצליח היא ללחוץ בעצמך וברצף!</p>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="myBar"></div>
+            </div>
+
+            <button class="action-btn" onclick="doItMyself()">אני עושה את זה בעצמי! 🛠️</button>
+            <div class="status-msg" id="statusBox">המערכת ממתינה לפעולה שלך...</div>
+        </div>
+
+        <!-- Section 1 -->
+        <section>
+            <h2>הפרדוקס של הציפייה האנושית</h2>
+            <p>
+                אנחנו חיים בעולם מלא בציפיות. אנחנו מחכים שהממשלה תתקן את הכביש, שהבוס יזהה את הפוטנציאל שלנו לבד, שהשותף לדירה ישטוף את הכלים, או שהמזל פשוט יקושש בדלתנו עם שק של כסף. פילוסופיית ה-DIY (Do It Yourself) שנולדה בשולי תרבות הפאנק והאייטיז באה לנפץ את האשליה הזו.
+            </p>
+            <p>
+                האמת המרה והמזככת היא פשוטה: <span style="color: var(--arcade-yellow);">אף אחד לא בא להציל אותך.</span> אנשים אחרים עסוקים מדי בלרדוף אחרי האינטרסים של עצמם, או לחלופין, הם מחכים בדיוק כמוך שמישהו אחר יעשה את העבודה. הציפייה שאחרים יגשימו את השאיפות שלך היא המתכון הבטוח ביותר למרירות וכשלון מתמשך.
+            </p>
+        </section>
+
+        <!-- Section 2 -->
+        <section>
+            <h2>חוקי המניפסט: מאפס למעשה</h2>
+            <p>
+                כדי להטמיע את המשפט הזה בחיים האמיתיים, יש להבין שלושה עקרונות ברזל אבסולוטיים:
+            </p>
+            <div class="quote-block">
+                "חוק מס' 1: אם המשימה קיימת בראש שלך, האחריות עליה היא בבלעדיות שלך."
+            </div>
+            <p>
+                1. **השמדת התירוצים:** המשפט "לא עשו לי", "לא עזרו לי" או "לא הסבירו לי" יוצא מהלקסיקון. אם חסר לך ידע, תלמד. אם חסר לך כלי עבודה, תשיג או תייצר אלטרנטיבה.
+            </p>
+            <p>
+                2. **האפקט המיידי:** ברגע שאתה מפסיק להאציל סמכויות על המזל ומתחיל לפעול, דברים קורים מהר יותר. הפעולה האישית מייצרת מומנטום (תנופה) שאנשים אחרים ירצו להצטרף אליה רק אחרי שהיא כבר בתנועה.
+            </p>
+            <p>
+                3. **בקרת איכות אבסולוטית:** כשאתה עושה משהו בעצמך, אתה לא צריך להתפשר על הסטנדרטים של מישהו אחר. התוצאה משקפת בדיוק את היכולת ואת הרצון שלך.
+            </p>
+        </section>
+
+        <!-- Section 3 -->
+        <section>
+            <h2>אנציקלופדיית המקרים: מתי הציפייה הרגה את המטרה?</h2>
+            <p>
+                להלן שלוש דוגמאות היסטוריות ויום-יומיות שמוכיחות מדוע פנייה לעזרה חיצונית לפני מעשה היא טעות קריטית:
+            </p>
+            <p>
+                <strong>א. הסטארט-אפיסט הממתין:</strong> יזם צעיר שיש לו רעיון מבריק לאפליקציה. הוא מחכה חודשים למצוא "שותף טכנולוגי שיכתוב את הקוד" או "משקיע שיביא כסף". בזמן הזה, יזם אחר שלמד לתכנת בעצמו בלילה דרך מדריכים, מרים גרסה ראשונית פשוטה וכובש את השוק.
+            </p>
+            <p>
+                <strong>ב. פרויקט השיפוץ הביתי:</strong> הציפייה הגדולה של בן/בת הזוג שהצד השני יתלה את המדף בחדר האורחים. המדף שוכב במסדרון שלושה חודשים, מייצר ריבים ואנרגיה שלילית. הפתרון? לקחת מקדחה, לראות סרטון של 2 דקות, ולתלות אותו לבד ביום שישי בבוקר. שקט תעשייתי מיידי.
+            </p>
+            <p>
+                <strong>ג. תרבות המוזיקה העצמאית באייטיז:</strong> להקות פאנק ורוק שלא חיכו שחברות התקליטים הגדולות יחתימו אותן. הן הקליטו בטייפ מנהלים במרתף, שכפלו קלטות לבד, עיצבו עטיפות עם טושים ומכרו אותן מהבגאז' של האוטו בהופעות. כך נולדו כמה מהלהקות הגדולות בהיסטוריה.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        &copy; 1986 קואליציית העשייה העצמאית | נוצר באמצעות יוזמה אישית בלבד
+    </footer>
+
+    <script>
+        let progress = 0;
+        const bar = document.getElementById("myBar");
+        const statusBox = document.getElementById("statusBox");
+
+        // Automatically drain progress to simulate that things disappear if you don't act
+        setInterval(() => {
+            if (progress > 0) {
+                progress -= 2;
+                if (progress < 0) progress = 0;
+                bar.style.width = progress + "%";
+                
+                if(progress < 30) {
+                    statusBox.innerHTML = "⚠️ המד מתרוקן! אף אחד לא עוזר לך...";
+                    statusBox.style.color = "#ff0055";
+                }
+            }
+        }, 150);
+
+        function doItMyself() {
+            progress += 15;
+            if (progress > 100) progress = 100;
+            bar.style.width = progress + "%";
+
+            if (progress >= 100) {
+                statusBox.innerHTML = "🏆 כל הכבוד! המשימה הושלמה ב-100% בזכותך בלבד!";
+                statusBox.style.color = "#00ffcc";
+            } else if (progress > 60) {
+                statusBox.innerHTML = "⚡ אתה מריץ את העסק! אל תעצור!";
+                statusBox.style.color = "#fff600";
+            } else {
+                statusBox.innerHTML = "👍 ככה זה עובד! המשך ללחוץ!";
+                statusBox.style.color = "#fff";
+            }
+        }
+    </script>
+</body>
+</html>
