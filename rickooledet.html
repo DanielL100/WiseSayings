@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ריקולדת שמח!</title>
+    <style>
+        /* עיצוב כללי ורקע חגיגי */
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* שכבת הרקע של החתימות */
+        #signatures-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .signature {
+            position: absolute;
+            font-family: 'Brush Script MT', 'Courier New', cursive, sans-serif;
+            font-weight: bold;
+            opacity: 0.15;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        /* כרטיס הברכה המרכזי */
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            z-index: 10;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            animation: popIn 1s ease-out;
+        }
+
+        h1 {
+            font-size: 4rem;
+            color: #ff477e;
+            margin: 0 0 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        p {
+            font-size: 1.4rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            margin: 0;
+            font-weight: 500;
+        }
+
+        /* הדגשות צבעוניות לפי הברכה */
+        .yellow { color: #b89200; font-weight: bold; }
+        .black { color: #000000; font-weight: bold; }
+        .purple { color: #8a2be2; font-weight: bold; }
+        .blue { color: #1e90ff; font-weight: bold; }
+        .red { color: #ff0000; font-weight: bold; }
+        .orange { color: #ff8c00; font-weight: bold; }
+
+        /* קנבס לקונפטי */
+        #confetti-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* אנימציית כניסה לכרטיס */
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- קנבס לקונפטי -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- מכולה לחתימות הרקע -->
+    <div id="signatures-container"></div>
+
+    <!-- כרטיס הברכה -->
+    <div class="card">
+        <h1>ריקולדת</h1>
+        <p>
+            מזל טוב ריקי.<br>
+            שלעולם לא תהיי <span class="yellow">אובר צהובה</span>, אבל גם לא <span class="black">שחורה</span>.<br>
+            שתזכי <span class="purple">לסגולה</span>, ותאכלי <span class="blue">גבינה כחולה</span>.<br>
+            שלא יעשו לך <span class="red">כיפה אדומה</span>, והשמש לעולם תהיה לך <span class="orange">כתומה</span>.
+        </p>
+    </div>
+
+    <script>
+        // 1. יצירת 47 חתימות "ריקי" ברקע בכיוונים ומיקומים רנדומליים
+        const container = document.getElementById('signatures-container');
+        const colors = ['#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#4a4a4a', '#8a2be2', '#ff8c00'];
+        const fonts = ['cursive', 'sans-serif', 'serif', 'monospace'];
+
+        for (let i = 0; i < 47; i++) {
+            const sig = document.createElement('div');
+            sig.className = 'signature';
+            sig.innerText = 'ריקי';
+            
+            // מיקום רנדומלי באחוזים
+            sig.style.top = Math.random() * 100 + '%';
+            sig.style.left = Math.random() * 100 + '%';
+            
+            // סיבוב רנדומלי (360 מעלות)
+            const rotation = Math.random() * 360;
+            sig.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+            
+            // גודל וצבע רנדומליים
+            sig.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            sig.style.color = colors[Math.floor(Math.random() * colors.length)];
+            sig.style.fontFamily = fonts[Math.floor(Math.random() * fonts.length)];
+
+            container.appendChild(sig);
+        }
+
+        // 2. מערכת קונפטי דינמית
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        const confettiCount = 150;
+        const confettiPieces = [];
+        const confettiColors = ['#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#ffd166', '#06d6a0', '#118ab2'];
+
+        class Confetti {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height - height;
+                this.size = Math.random() * 8 + 5;
+                this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                this.speed = Math.random() * 3 + 2;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = Math.random() * 4 - 2;
+            }
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+                if (this.y > height) {
+                    this.y = -20;
+                    this.x = Math.random() * width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < confettiCount; i++) {
+            confettiPieces.push(new Confetti());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            confettiPieces.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
